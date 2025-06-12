@@ -1,0 +1,47 @@
+cabal-version: 3.14
+name: ghc-ar-quickcheck
+version: 0.1.0.0
+license: BSD-3-Clause
+license-file: LICENSE
+author: Cheng Shao
+maintainer: terrorjack@type.dance
+build-type: Simple
+
+common deps
+  build-depends:
+    base,
+    binary,
+    bytestring,
+    containers,
+    directory,
+    filepath,
+    ghc,
+    process,
+    quickcheck-instances >=0.3.33,
+    tasty >=1.5.3,
+    tasty-quickcheck >=0.11.1,
+    unix,
+
+  default-language: GHC2024
+  default-extensions:
+    MonoLocalBinds
+    NoImplicitPrelude
+
+  ghc-options:
+    -Wall
+    -Wno-name-shadowing
+    -Wnoncanonical-monad-instances
+    -Wnoncanonical-monoid-instances
+    -threaded
+    -rtsopts
+    "-with-rtsopts=-A128M -Fd0 -H4G -I0 -N"
+
+test-suite ghc-ar-quickcheck-test
+  import: deps
+  type: exitcode-stdio-1.0
+  hs-source-dirs:
+    src
+    test
+
+  other-modules: GHC.SysTools.Ar
+  main-is: Main.hs
